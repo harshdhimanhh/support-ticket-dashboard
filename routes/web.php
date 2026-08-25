@@ -8,7 +8,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessageController;
 
 Route::get('/', function () {
-    return view('welcome');
+    if (! auth()->check()) {
+        return redirect()->route('login');
+    }
+
+    return auth()->user()->hasRole('customer')
+        ? redirect()->route('customer.dashboard')
+        : redirect()->route('dashboard');
 });
 Route::middleware(['auth', 'role:customer'])->group(function () {
 
