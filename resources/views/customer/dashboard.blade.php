@@ -1,0 +1,12 @@
+<x-app-layout>
+    <x-slot name="header"><div class="container py-4 d-flex justify-content-between align-items-center gap-3"><div><p class="text-primary text-uppercase fw-semibold small mb-1">Customer portal</p><h1 class="h3 mb-0">My support tickets</h1></div><a href="{{ route('customer.tickets.create') }}" class="btn btn-primary">+ New ticket</a></div></x-slot>
+    <main class="container py-4 py-md-5">
+        @if(session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif
+        @if(session('error'))<div class="alert alert-danger">{{ session('error') }}</div>@endif
+        <div class="row g-4 mb-4"><div class="col-md-4"><div class="card ticket-card h-100"><div class="card-body"><div class="text-secondary small">Total tickets</div><div class="display-6 fw-semibold text-primary">{{ $tickets->total() }}</div></div></div></div><div class="col-md-8"><div class="card ticket-card h-100"><div class="card-body"><h2 class="h5">Need help?</h2><p class="text-secondary mb-0">Open a ticket and our support team will get back to you as soon as possible.</p></div></div></div></div>
+        <div class="card ticket-card overflow-hidden"><div class="card-body p-0"><div class="p-4 border-bottom"><h2 class="h5 mb-1">Your conversations</h2><p class="text-secondary small mb-0">Track replies and continue a conversation.</p></div><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th class="ps-4">S.No.</th><th>Subject</th><th>Status</th><th>Created</th><th class="text-end pe-4">Action</th></tr></thead><tbody>
+            @forelse($tickets as $ticket)<tr><td class="ps-4 text-secondary">{{ $tickets->firstItem() + $loop->index }}</td><td class="fw-semibold">{{ $ticket->subject }}</td><td><span class="badge {{ $ticket->status === 'open' ? 'text-bg-success' : ($ticket->status === 'in-progress' ? 'text-bg-warning' : 'text-bg-secondary') }}">{{ $ticket->status === 'in-progress' ? 'In progress' : ucfirst($ticket->status) }}</span></td><td class="text-secondary">{{ $ticket->created_at->format('d M Y, H:i') }}</td><td class="text-end pe-4"><a href="{{ route('customer.tickets.show', $ticket) }}" class="btn btn-sm btn-outline-primary">View conversation</a></td></tr>
+            @empty<tr><td colspan="5" class="text-center text-secondary py-5">No tickets yet. Create your first support ticket.</td></tr>@endforelse
+        </tbody></table></div></div></div><div class="mt-4">{{ $tickets->links() }}</div>
+    </main>
+</x-app-layout>
