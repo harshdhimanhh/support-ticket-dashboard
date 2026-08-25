@@ -1,6 +1,6 @@
 # Live Support Ticket Dashboard
 
-A Laravel + Blade real-time support dashboard for authenticated support agents. It uses Laravel Reverb and Laravel Echo for live ticket and message notifications.
+A Laravel + Blade real-time support dashboard for authenticated support agents. It uses Pusher Channels and Laravel Echo for live ticket and message notifications.
 
 ## Requirements
 
@@ -23,10 +23,9 @@ Configure the database in `.env`. For SQLite, create `database/database.sqlite` 
 DB_CONNECTION=sqlite
 ```
 
-Install the Reverb configuration, then migrate and seed:
+Configure Pusher Channels values in `.env`, then migrate and seed:
 
 ```bash
-php artisan reverb:install
 php artisan migrate --seed
 npm install
 npm run build
@@ -41,15 +40,14 @@ Password: password
 
 ## Run locally
 
-Use separate terminals:
+Run the application:
 
 ```bash
 php artisan serve
-php artisan reverb:start
 npm run dev
 ```
 
-`BROADCAST_CONNECTION` must be `reverb`. The required `REVERB_*` and `VITE_REVERB_*` variables are documented in `.env.example`; `php artisan reverb:install` generates usable local values.
+`BROADCAST_CONNECTION` must be `pusher`. Set `PUSHER_APP_ID`, `PUSHER_APP_KEY`, `PUSHER_APP_SECRET`, `PUSHER_APP_CLUSTER`, `VITE_PUSHER_APP_KEY`, and `VITE_PUSHER_APP_CLUSTER` in `.env`. Pusher runs the WebSocket service, so no separate Reverb process is required.
 
 Events use `ShouldBroadcastNow`, so a queue worker is not required for real-time notifications. If the application is changed to queued broadcasting, also run `php artisan queue:work`.
 
