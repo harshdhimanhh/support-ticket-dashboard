@@ -100,5 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
         refreshSerialNumbers();
         showNotification('New ticket received.');
     });
+
+    window.Echo.private('agents').listen('.NewMessageEvent', event => {
+        if (event.message?.user_type !== 'customer') return;
+        showNotification(`New customer message on ticket #${event.message.ticket_id}.`);
+    });
 });
 </script>

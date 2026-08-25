@@ -57,6 +57,7 @@ Events use `ShouldBroadcastNow`, so a queue worker is not required for real-time
 - Paginated ticket API and dashboard controls (10 tickets per page).
 - Live public `tickets` channel for new tickets.
 - Live private `ticket.{ticketId}` channel for new messages.
+- Live private `agents` channel for customer-message notifications on the agent dashboard.
 - Agent-only web routes, API routes, and private channel authorization.
 - Seed data: 5 open tickets with 10 messages each.
 

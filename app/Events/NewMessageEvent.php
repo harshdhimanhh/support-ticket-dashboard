@@ -23,6 +23,9 @@ class NewMessageEvent implements ShouldBroadcastNow
             new PrivateChannel(
                 'ticket.' . $this->message->ticket_id
             ),
+            // Lets every authenticated support agent receive a dashboard
+            // notification, even when they are not viewing this ticket.
+            new PrivateChannel('agents'),
         ];
     }
 

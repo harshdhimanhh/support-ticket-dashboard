@@ -14,3 +14,8 @@ Broadcast::channel(
             && ($user->hasRole('agent') || $ticket->customer_id === $user->id);
     }
 );
+
+Broadcast::channel(
+    'agents',
+    fn (User $user): bool => $user->hasRole('agent')
+);
